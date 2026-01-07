@@ -53,8 +53,11 @@ def validate_installed_libraries(requirements: List[str]):
             except AttributeError:
                 warnings.warn(f"Failed to retrieve '{req.name}' version. Continuing without compatability check.")
                 continue
-            if not req.specifier.contains(parse(installed_ver), prereleases=True):
-                error += f"\nRequired '{req.name}' version {req.specifier}, installed version {installed_ver}."
+
+            parsed_ver = parse(installed_ver)
+            parsed_base_ver = parse(parsed_ver.base_version)
+            if not (req.specifier.contains(parsed_ver, prereleases=True) or req.specifier.contains(parsed_base_ver)):
+                    error += f"\nRequired '{req.name}' version {req.specifier}, installed version {installed_ver}."
 
     if error:
         raise RequirementError(error)
