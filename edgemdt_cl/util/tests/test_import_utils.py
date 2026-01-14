@@ -135,7 +135,6 @@ from edgemdt_cl.util.import_util import (is_compatible, validate_installed_libra
 def test_validate_installed_libraries(requirements, mock_modules, boolean_expected, error_message_expected):
 
     def _create_mock_import_module(mock_modules):
-
         def mock_import_module(name):
             if name not in mock_modules:
                 raise ImportError(f"No module named '{name}'")
